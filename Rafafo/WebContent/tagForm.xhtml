@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html" />
+<h:head>
+<title>RaFaFo: Cadastro Básico</title>
+	<h1>Cadastro de Assunto/Tag</h1>
+</h:head>
+<h:form id="assForm">
+
+<!-- Painel Assunto -->
+	<p:panel header="Informações do Assunto" toggleable="true" toggleSpeed="500" closeSpeed="500" collapsed="false">
+		<h:panelGrid columns="2" cellpadding="5">
+			<p:outputLabel for="nome" value="Nome: " />
+			<p:inputText required="true" label="teste" id="nome"
+				value="#{assuntoBean.assunto.nome}" style="width:100%" />
+			<p:message showDetail="Nome Detalhe!" for="nome" />
+
+			<!--         	Recebe Descrição do Assunto -->
+			<p:outputLabel for="desc" value="Descrição: " />
+			<p:inputText id="desc" value="#{assuntoBean.assunto.descricao}"
+				style="width:100%" />
+			<p:message for="desc" />
+
+			<!--         	Lista disciplinas -->
+			<p:outputLabel for="disc" value="Disciplina: " />
+			<p:selectOneMenu id="disc" value="#{assuntoBean.assunto.disciplina}"
+				required="true">
+				<f:selectItem itemLabel="Selecione..."/>
+				<f:selectItems noSelectionValue="Selecione Displina..."
+					value="#{assuntoBean.disciplinas}" var="d" itemLabel="#{d.label}"
+					itemValue="#{d}" />
+			</p:selectOneMenu>
+
+		</h:panelGrid>
+	<p:commandButton value="Cadastrar"  action="#{assuntoBean.grava}" ajax="false" />
+	</p:panel>
+
+</h:form>
+<!-- painel tag -->
+	<h:form id="tagF">
+	<p:panel header="Informações da Tag" toggleable="true" toggleTitle="Informações da Tag">
+	<h:panelGrid columns="2" cellpadding="5">
+		<p:outputLabel for="nome" value="Nome: " />
+		<p:inputText id="nome" label="teste" value="#{tagBean.tag.nome}"
+			style="width:100%" required="true" />
+
+		<p:outputLabel for="desc" value="Descrição: " />
+		<p:inputText id="desc" value="#{tagBean.tag.descricao}"
+			style="width:100%" />
+
+		<p:outputLabel for="disc" value="Disciplina: " />
+		<p:selectOneMenu id="disc" value="#{tagBean.disciplina}" 
+			required="true">
+			<f:selectItem itemLabel="Selecione..." />
+			<f:selectItems value="#{assuntoBean.disciplinas}" var="d"
+				itemLabel="#{d.label}" itemValue="#{d}" />
+			<f:ajax onevent="onchange" render="cbAssunto" execute="disc" />
+		</p:selectOneMenu>
+
+		<p:outputLabel for="cbAssunto" value="Assunto: " />
+		<p:selectOneMenu id="cbAssunto" value="#{tagBean.tag.assunto}" converter="assuntoConverter"
+			required="false" style="width:100%">
+			<f:selectItem itemLabel="Selecione..." />
+			<f:selectItems
+				value="#{tagBean.listaAssuntos()}" var="as" itemLabel="#{as.nome}"
+				itemValue="#{as}" />
+		</p:selectOneMenu>
+
+	</h:panelGrid>
+	<p:accordionPanel>
+		<p:tab title="Conceito" closable="true">
+			<p:inputTextarea value="#{tagBean.tag.conceito}" id="conc" rows="3" cols="70" style="width:100%"
+					autoResize="true"></p:inputTextarea>
+		</p:tab>
+	</p:accordionPanel>
+	<p:commandButton ajax="non-ajax"   partialSubmit="@this" value="Cadastrar" action="#{tagBean.grava}" />
+	</p:panel>
+	<p:messages />
+	</h:form>
+</html>

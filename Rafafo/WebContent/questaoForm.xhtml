@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view contentType="text/html" />
+<h:head>
+	<h1>Cadastro de Questão</h1>
+</h:head>
+<h:body>
+	<h:form id="formQuestao">
+		<p:accordionPanel multiple="true">
+			<p:tab title="Informações da Questão">
+<!-- 				<h:form id="infoQ"> -->
+					<h:panelGrid style="width:70%" columns="4" cellspacing="5px" cellpadding="5">
+						<p:outputLabel for="banca" value="Banca: " style="width:25%" />
+						<p:selectOneMenu id="banca" value="#{questaoBean.questao.banca}" 
+							style="width:100%">
+<!-- 							<f:selectItem  itemLabel="Banca..."></f:selectItem> -->
+							<f:selectItems value="#{questaoBean.bancas}" var="b"
+								itemValue="#{b}" itemLabel="#{b.label}"></f:selectItems>
+						</p:selectOneMenu>
+
+						<p:outputLabel for="org" value="Orgão: "></p:outputLabel>
+						<p:inputText id="org" value="#{questaoBean.questao.orgao}" style="width:100%" />
+
+						<p:outputLabel for="carg" value="Cargo: "></p:outputLabel>
+						<p:inputText id="carg" value="#{questaoBean.questao.cargo}" style="width:100%"/>
+						
+						<p:outputLabel for="ano" value="Ano: "></p:outputLabel>
+						<p:inputText id="ano"  maxlength="4" value="#{questaoBean.questao.ano}"/>
+
+					</h:panelGrid>
+
+					<h:panelGrid columns="3">
+						<p:outputLabel value="Digite parte da Tag: " for="tdd" />
+						<p:autoComplete id="tdd" dropdown="true" multiple="true" size="100"
+							forceSelection="true" required="true" itemValue="#{t}"
+							value="#{questaoBean.questao.tags}" converter="tagConverter"
+							completeMethod="#{tagBean.completeTag}" var="t"
+							itemLabel="#{t.nome} - (#{t.assunto.nome})" minQueryLength="3"
+							queryDelay="400">
+						</p:autoComplete>
+						<h:panelGroup>
+				        <p:outputLabel for="gab" value="Gabarito:" />
+				        <p:selectOneRadio id="gab" layout="horizontal"  required="true" value="#{questaoBean.questao.gabarito}">
+				            <f:selectItem itemLabel="Certo" itemValue="true" />
+				            <f:selectItem itemLabel="Errado" itemValue="false" />
+				        </p:selectOneRadio>
+				        </h:panelGroup>
+					</h:panelGrid>
+					
+<!-- 				</h:form> -->
+			</p:tab>
+			<p:tab title="Questão">
+				<h:panelGrid columns="2">
+					<h:panelGroup>
+						<p:outputLabel for="nrItem" value="Nr: "/>
+						<p:inputText id="nrItem" value="#{questaoBean.questao.nrItem}"
+							maxlength="3" style="width:15%" />
+					</h:panelGroup>
+					<h:panelGroup>
+						<p:inputTextarea value="#{questaoBean.questao.enunciado}" id="questao" rows="3" cols="70"
+							style="width:100%" autoResize="true"/>
+						<p:inputTextarea value="#{questaoBean.questao.item}" id="item" rows="6" cols="70" title="ITEM	"
+							style="width:100%" autoResize="true"/>
+					</h:panelGroup>
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="Justificativa">
+				<p:inputTextarea value="#{questaoBean.questao.justificativa}" id="just" rows="6" cols="70" style="width:100%"
+					autoResize="true"></p:inputTextarea>
+			</p:tab>
+		</p:accordionPanel>
+		<p:commandButton global="true" ajax="non-ajax" value="Guardar Q" action="#{questaoBean.grava}" />
+		<p:messages closable="true" />
+	</h:form>
+</h:body>
+</html>
