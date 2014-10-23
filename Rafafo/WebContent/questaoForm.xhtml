@@ -35,15 +35,16 @@
 
 					</h:panelGrid>
 
-					<h:panelGrid columns="3">
+						<h:panelGrid columns="3">
 						<p:outputLabel value="Digite parte da Tag: " for="tdd" />
-						<p:autoComplete id="tdd" dropdown="true" multiple="true" size="100"
+						<p:autoComplete id="tdd" dropdown="true" multiple="true" placeholder="tag" 
 							forceSelection="true" required="true" itemValue="#{t}"
 							value="#{questaoBean.questao.tags}" converter="tagConverter"
 							completeMethod="#{tagBean.completeTag}" var="t"
 							itemLabel="#{t.nome} - (#{t.assunto.nome})" minQueryLength="3"
 							queryDelay="400">
 						</p:autoComplete>
+						<p:commandButton global="false" ajax="ajax" immediate="true" process="tdd" value="Limpar Tags" action="#{questaoBean.limpaTags}" />
 						<h:panelGroup>
 				        <p:outputLabel for="gab" value="Gabarito:" />
 				        <p:selectOneRadio id="gab" layout="horizontal"  required="true" value="#{questaoBean.questao.gabarito}">

@@ -81,5 +81,7 @@ public class QuestaoBean implements Serializable{
 		}
 		return null;
 	}
-	
+	public void limpaTags() {
+		questao.setTags(null);
+	}
 }
